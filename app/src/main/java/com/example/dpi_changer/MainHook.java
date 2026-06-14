@@ -14,13 +14,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class MainHook implements IXposedHookLoadPackage {
 
-    // -1 significa que aún no hemos consultado la base de datos
     private int dpiCache = -1;
 
     @Override
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 
-        // No nos inyectamos en nuestra propia app para evitar bucles infinitos
         if (lpparam.packageName.equals("com.example.dpi_changer")) {
             return;
         }
@@ -36,7 +34,6 @@ public class MainHook implements IXposedHookLoadPackage {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                        // Si no tenemos el DPI, usamos el ContentProvider para pedirlo
                         if (dpiCache == -1) {
                             Application app = AndroidAppHelper.currentApplication();
                             if (app != null) {
@@ -62,7 +59,6 @@ public class MainHook implements IXposedHookLoadPackage {
                         // Si es 0, usamos el sistema por defecto
                         if (dpiCache <= 0) return;
 
-                        // ¡Aplicamos la magia dinámicamente!
                         Configuration config = (Configuration) param.args[0];
                         if (config != null) {
                             config.densityDpi = dpiCache;

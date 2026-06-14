@@ -17,7 +17,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
     private PackageManager packageManager;
     private OnItemClickListener listener;
 
-    // Interfaz para detectar clics en cada tarjeta
     public interface OnItemClickListener {
         void onItemClick(ApplicationInfo appInfo);
     }
@@ -39,12 +38,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         ApplicationInfo appInfo = appList.get(position);
 
-        // Cargamos el nombre real, el paquete y el ícono
         holder.tvAppName.setText(packageManager.getApplicationLabel(appInfo));
         holder.tvAppPackage.setText(appInfo.packageName);
         holder.imgAppIcon.setImageDrawable(packageManager.getApplicationIcon(appInfo));
 
-        // Evento al tocar la tarjeta
         holder.itemView.setOnClickListener(v -> listener.onItemClick(appInfo));
     }
 
@@ -53,7 +50,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder> {
         return appList.size();
     }
 
-    // La clase que enlaza los elementos visuales del XML
     public static class AppViewHolder extends RecyclerView.ViewHolder {
         ImageView imgAppIcon;
         TextView tvAppName, tvAppPackage, tvAppDpi;

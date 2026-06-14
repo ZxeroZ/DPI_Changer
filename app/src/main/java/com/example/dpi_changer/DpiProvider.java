@@ -21,7 +21,6 @@ public class DpiProvider extends ContentProvider {
 
         String packageName = selectionArgs[0];
 
-        // Leemos el DPI de las preferencias de la app gestora
         SharedPreferences pref = getContext().getSharedPreferences("dpi_preferences", Context.MODE_PRIVATE);
         int dpi = pref.getInt(packageName, 0);
 
